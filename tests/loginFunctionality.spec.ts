@@ -22,7 +22,6 @@ test.describe("login", ()=>{
         const emailBox=page.locator("//input[@id='ap_email']")
         await page.locator("//input[@id='continue']").click()
         await expect(page.getByRole('heading',{name:'There was a problem'})).toBeVisible()
-        //await expect(page.locator("//div[@id='auth-email-missing-alert']")).toBeVisible()
 
     });
 
@@ -35,7 +34,16 @@ test.describe("login", ()=>{
         await page.locator("//input[@id='signInSubmit']").click()
         await expect(page.getByRole('heading',{name:'Important Message!'})).toBeVisible()
 
-})
+    })
+
+    test("null password", async({page})=>{
+        const emailBox=page.locator("//input[@id='ap_email']")
+        await emailBox.fill("f@gmail.com")
+        await page.locator("//input[@id='continue']").click()
+        await page.locator("//input[@id='ap_password']").fill(" ")
+        await page.locator("//input[@id='signInSubmit']").click()
+        await expect(page.getByRole('heading',{name:'There was a problem'})).toBeVisible()
+    })
 
 
     test.afterEach(async ({page})=>{
